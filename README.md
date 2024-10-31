@@ -3,14 +3,32 @@
 Você está prestes a explorar o banco de dados da empresa "Momento"! Com essa base de dados, vamos treinar consultas SQL e responder algumas perguntas intrigantes que vão revelar como a empresa está organizada. Vamos lá?
 
 **Departamento de Tecnologia**
+
 Inclua suas próprias informações no departamento de Tecnologia da empresa.
+
+Q:
+```sql
+INSERT INTO funcionarios (primeiro_nome, sobrenome, email, senha, telefone, data_contratacao, cargo_id, salario, departamento_id) 
+VALUES ('Caroline', 'Fernandes', 'carol-28.01@hotmail.com', 'Edsheeranmelhorcantor', '111111111', CURDATE(), 9, 8000.00, 3);
+```
 
 Agora diga, quantos funcionários temos ao total na empresa?
 
 E quanto ao Departamento de Tecnologia?
 
 **Departamento de Vendas**
+
 Quantos funcionários trabalham no Departamento de Vendas? Use uma consulta para descobrir o número total de funcionários alocados nesse departamento.
+R: 5
+
+Q: 
+```sql
+SELECT COUNT(*) 
+FROM funcionarios 
+JOIN departamentos ON funcionarios.departamento_id = departamentos.departamento_id 
+WHERE departamentos.departamento_nome = 'Vendas';
+```
+
 
 Salários no Departamento de Vendas
 
@@ -23,11 +41,13 @@ Quais são os produtos mais vendidos e quais têm pouca ou nenhuma saída?
 Qual é o produto mais caro no inventário da empresa?
 
 **Departamento de Inovações**
+
 Um novo departamento foi criado. O departamento de Inovações. Ele será locado no Brasil. Por favor, adicione-o no banco de dados da empresa colocando quaisquer informações que você achar relevantes.
 
 O departamento de Inovações está sem funcionários. Inclua alguns colegas de turma nesse departamento.
 
 **Funcionários**
+
 Quantos funcionários da empresa Momento possuem conjuges?
 
 Qual o funcionário contratado há mais tempo na empresa?
@@ -39,6 +59,7 @@ Quem são os funcionários com mais tempo na empresa, considerando a data_contra
 Como a média salarial dos funcionários da "Momento" evoluiu nos últimos anos? Dica: utilize a função AVG() para calcular a média salarial dos funcionários. e GROUP BY para agrupar os resultados por ano.
 
 **Médias salariais**
+
 Qual a média salarial dos funcionários da empresa Momento, excluindo-se o CEO, CMO e CFO?
 
 Qual a média salarial do departamento de tecnologia?
@@ -48,6 +69,7 @@ Qual o departamento com a maior média salarial?
 Qual o departamento com o menor número de funcionários?
 
 **Produtos**
+
 Pensando na relação quantidade e valor unitario, qual o produto mais valioso da empresa?
 
 Qual o produto mais vendido da empresa?
