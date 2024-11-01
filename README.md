@@ -1,8 +1,9 @@
 # Momento 👩🏻‍💻
+Essa atividade consiste em uma lista de pesquisas em SQL para explorar a estrutura da empresa "Momento". Cada consulta revela dados sobre escritórios, salários, departamentos como Inovações, Vendas e Tecnologia, fornecendo uma visão abrangente dos funcionários e da alocação de recursos na organização.
 
 Você está prestes a explorar o banco de dados da empresa "Momento"! Com essa base de dados, vamos treinar consultas SQL e responder algumas perguntas intrigantes que vão revelar como a empresa está organizada. Vamos lá?
 
-## Departamento de Tecnologia
+## Departamento de Tecnologia 💻
 
 Inclua suas próprias informações no departamento de Tecnologia da empresa.
 
@@ -33,7 +34,7 @@ JOIN departamentos ON funcionarios.departamento_id = departamentos.departamento_
 WHERE departamentos.departamento_nome = 'Tecnologia';
 ```
 
-## Departamento de Vendas
+## Departamento de Vendas 📈
 
 Quantos funcionários trabalham no Departamento de Vendas? Use uma consulta para descobrir o número total de funcionários alocados nesse departamento.
 R: 5
@@ -46,7 +47,7 @@ JOIN departamentos ON funcionarios.departamento_id = departamentos.departamento_
 WHERE departamentos.departamento_nome = 'Vendas';
 ```
 
-## Salários no Departamento de Vendas
+## Salários no Departamento de Vendas 💰
 
 Qual é o custo total dos salários do pessoal de Vendas? Isso nos ajuda a entender o orçamento do departamento!
 R: R$10300.000000
@@ -61,6 +62,8 @@ WHERE departamentos.departamento_nome = 'Vendas';
 
 Quanto o departamento de Vendas gasta em salários?
 R: R$51500.00
+
+Q:
 
 ```sql
 SELECT SUM(salario) 
@@ -82,14 +85,36 @@ WHERE produto_id NOT IN (SELECT produto_id FROM vendas);
 ```
 
 Qual é o produto mais caro no inventário da empresa?
+R: Sabre de Luz (Mace Windu)
 
-## Departamento de Inovações
+Q:
+```sql
+SELECT produto_nome, produto_price 
+FROM produtos 
+ORDER BY CAST(produto_price AS DECIMAL(10, 2)) DESC 
+LIMIT 1;
+```
+
+## Departamento de Inovações 💡
 
 Um novo departamento foi criado. O departamento de Inovações. Ele será locado no Brasil. Por favor, adicione-o no banco de dados da empresa colocando quaisquer informações que você achar relevantes.
 
 O departamento de Inovações está sem funcionários. Inclua alguns colegas de turma nesse departamento.
 
-## Funcionários
+Q: 
+
+```sql
+INSERT INTO departamentos (departamento_nome, escritorio_id) 
+VALUES ('Inovações', (SELECT escritorio_id FROM escritorios WHERE pais_id = 'BR' LIMIT 1));
+
+INSERT INTO funcionarios (primeiro_nome, sobrenome, email, senha, telefone, data_contratacao, cargo_id, salario, departamento_id)
+VALUES 
+('João', 'Silva', 'joao.silva@example.com', 'senha123', '123456789', CURDATE(), 5, 6000.00, (SELECT departamento_id FROM departamentos WHERE departamento_nome = 'Inovações' LIMIT 1)),
+('Mariana', 'Oliveira', 'mariana.oliveira@example.com', 'senha456', '987654321', CURDATE(), 6, 6500.00, (SELECT departamento_id FROM departamentos WHERE departamento_nome = 'Inovações' LIMIT 1)),
+('Lucas', 'Pereira', 'lucas.pereira@example.com', 'senha789', '456123789', CURDATE(), 5, 6200.00, (SELECT departamento_id FROM departamentos WHERE departamento_nome = 'Inovações' LIMIT 1));
+```
+
+## Funcionários 👥
 
 Quantos funcionários da empresa Momento possuem conjuges?
 R: 4
@@ -124,6 +149,17 @@ LIMIT 1;
 ```
 
 Quem são os funcionários com mais tempo na empresa, considerando a data_contratacao?
+R:
+![image](https://github.com/user-attachments/assets/f1b09d45-8266-47e0-9905-bc5778d29e71)
+
+Q: 
+```sql
+SELECT primeiro_nome, sobrenome, data_contratacao 
+FROM funcionarios 
+ORDER BY data_contratacao ASC 
+LIMIT 5;
+```
+
 
 Como a média salarial dos funcionários da "Momento" evoluiu nos últimos anos? Dica: utilize a função AVG() para calcular a média salarial dos funcionários. e GROUP BY para agrupar os resultados por ano.
 
@@ -135,7 +171,7 @@ GROUP BY YEAR(data_contratacao)
 ORDER BY ano;
 ```
 
-## Médias salariais
+## Médias salariais 💵
 
 Qual a média salarial dos funcionários da empresa Momento, excluindo-se o CEO, CMO e CFO?
 R: R$8442.894737
@@ -177,16 +213,20 @@ LIMIT 1;
 ```
 
 Qual o departamento com o menor número de funcionários?
+R: Administração
 
-## Produtos
+Q:
 
-Pensando na relação quantidade e valor unitario, qual o produto mais valioso da empresa?
+```sql
+SELECT d.departamento_nome, COUNT(f.funcionario_id) AS total_funcionarios
+FROM departamentos d
+LEFT JOIN funcionarios f ON d.departamento_id = f.departamento_id
+GROUP BY d.departamento_nome
+ORDER BY total_funcionarios ASC
+LIMIT 1;
+```
 
-Qual o produto mais vendido da empresa?
-
-Qual o produto menos vendido da empresa?
-
-## Escritórios
+## Escritórios 🏢
 Quantos escritórios a "Momento" possui em cada região? (Dica: relacione as tabelas regioes e escritorios).
 
 Qual é o custo total de suprimentos em cada escritório? Que tal ordenar os resultados para ver qual escritório possui os suprimentos mais caros?
