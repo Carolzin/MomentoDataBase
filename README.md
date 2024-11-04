@@ -20,7 +20,6 @@ Q:
 ```sql
 SELECT COUNT(*) 
 FROM funcionarios 
-JOIN departamentos ON funcionarios.departamento_id = departamentos.departamento_id;
 ```
 
 E quanto ao Departamento de Tecnologia?
